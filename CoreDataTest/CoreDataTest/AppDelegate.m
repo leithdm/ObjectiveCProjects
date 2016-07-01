@@ -63,8 +63,13 @@
 - (void)fetchData {
 	NSFetchRequest *fetch = [[NSFetchRequest alloc] initWithEntityName:@"Device"];
 	
-	NSError *error;
-	NSArray <NSManagedObject *> *arr = [self.managedObjectContext executeFetchRequest:fetch error:&error];
+	NSError *error = nil;
+	NSArray *arr = [self.managedObjectContext executeFetchRequest:fetch error:&error];
+	
+	if (error) {
+		NSLog(@"Error: %@\n%@", [error localizedDescription], [error userInfo] );
+		return;
+	}
 	
 	for (NSManagedObject *object in arr) {
 		NSString *objectName = [object valueForKey:@"name"];

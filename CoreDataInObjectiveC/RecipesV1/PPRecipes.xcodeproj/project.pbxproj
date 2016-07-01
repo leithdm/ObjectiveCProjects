@@ -36,6 +36,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		01166FEB1D2511EF00E5D15B /* MigrationTest2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MigrationTest2.xcdatamodel; sourceTree = "<group>"; };
 		B626255915B8CB7100136BA8 /* PPRSelectIngredientTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPRSelectIngredientTypeViewController.h; sourceTree = "<group>"; };
 		B626255A15B8CB7100136BA8 /* PPRSelectIngredientTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPRSelectIngredientTypeViewController.m; sourceTree = "<group>"; };
 		B631D23D1599623400A4D3EC /* PPRImportOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPRImportOperation.h; sourceTree = "<group>"; };
@@ -436,6 +437,7 @@
 		B668353E15E698FE00982085 /* PPRecipes.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				01166FEB1D2511EF00E5D15B /* MigrationTest2.xcdatamodel */,
 				B668353F15E698FE00982085 /* v1.xcdatamodel */,
 			);
 			currentVersion = B668353F15E698FE00982085 /* v1.xcdatamodel */;

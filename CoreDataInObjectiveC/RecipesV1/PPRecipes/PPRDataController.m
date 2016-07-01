@@ -45,7 +45,7 @@
   if ([self managedObjectContext]) return;
   
   NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"PPRecipes"
-                                            withExtension:@"momd"];
+                                            PPRAwithExtension:@"momd"];
   NSAssert(modelURL != nil, @"Failed to locate momd in app bundle");
   NSManagedObjectModel *mom = nil;
   mom = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];

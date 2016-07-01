@@ -138,7 +138,7 @@
   id editRecipeNameVC = [segue destinationViewController];
   NSString *name = [[self recipeMO] valueForKey:@"name"];
   [[editRecipeNameVC textField] setText:name];
-  
+	
   [editRecipeNameVC setTextChangedBlock:^ BOOL (NSString *text,
                                                 NSError **error) {
     NSIndexPath *path = [NSIndexPath indexPathForRow:0 inSection:0];

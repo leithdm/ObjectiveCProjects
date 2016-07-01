@@ -51,7 +51,7 @@
     text = [[self textField] text];
   }
   
-  BOOL success = [self textChangedBlock](text, &error);
+  BOOL success = [self textChangedBlock](text, &error); //http://nscookbook.com/2013/06/ios-programming-recipe-25-implementing-blocks-part-i/
   if (success) {
     [[self navigationController] popViewControllerAnimated:YES];
     return YES;
