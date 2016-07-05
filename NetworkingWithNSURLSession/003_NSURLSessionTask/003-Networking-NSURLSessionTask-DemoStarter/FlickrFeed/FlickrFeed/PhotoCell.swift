@@ -24,9 +24,25 @@ import UIKit
 
 class PhotoCell: UICollectionViewCell {
   @IBOutlet weak var photoImageView: UIImageView!
+	
+	var imageTask: NSURLSessionDownloadTask?
 
   var photo: Photo? {
     didSet {
+		imageTask?.cancel() //if there is an image task, lets cancel it. 
+		guard let photoURL = photo?.photoUrl else {
+			self.photoImageView.image = UIImage(named: "Downloading")
+			return
+		}
+		
+		NetworkClient.sharedInstance.getImage(photoURL) { [weak self] (image, error) in
+			guard error == nil else {
+				self?.photoImageView.image = UIImage(named: "Broken")
+				return
+			}
+			
+			self?.photoImageView.image = image
+		}
     }
   }
 

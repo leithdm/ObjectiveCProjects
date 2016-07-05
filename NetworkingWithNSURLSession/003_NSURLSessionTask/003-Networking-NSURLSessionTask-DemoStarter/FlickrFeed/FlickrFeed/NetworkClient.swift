@@ -23,66 +23,102 @@
 import UIKit
 
 enum NetworkClientError: ErrorType {
-  case ImageData
+	case ImageData
 }
 
 typealias NetworkResult = (AnyObject?, ErrorType?) -> Void
 typealias ImageResult = (UIImage?, ErrorType?) -> Void
 
-class NetworkClient {
-  private var urlSession: NSURLSession
-  static let sharedInstance = NetworkClient()
+class NetworkClient: NSObject {
+	private var urlSession: NSURLSession
+	private var backgroundSession: NSURLSession!
+	static let sharedInstance = NetworkClient()
+	
+	override init() {
+		let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+		urlSession = NSURLSession(configuration: configuration)
+		super.init()
+		
+		let backgroundConfiguration = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier("com.razeware.flickrfeed")
+		backgroundSession = NSURLSession(configuration: backgroundConfiguration, delegate: self, delegateQueue: nil)
+	}
+	
+	// MARK: service methods
+	
+	func getURL(url: NSURL, completion: NetworkResult) {
+		let request = NSURLRequest(URL: url)
+		let task = urlSession.dataTaskWithRequest(request) { [unowned self] (data, response, error) in
+			guard let data = data else {
+				NSOperationQueue.mainQueue().addOperationWithBlock {
+					completion(nil, error)
+				}
+				return
+			}
+			self.parseJSON(data, completion: completion)
+		}
+		task.resume()
+	}
+	
+	func getImage(url: NSURL, completion: ImageResult) -> NSURLSessionDownloadTask  { //return back the task that gets created in this method
+		let request = NSURLRequest(URL: url)
+		let task = urlSession.downloadTaskWithRequest(request) { (url, response, error) in
+			guard let url = url else {
+				
+				NSOperationQueue.mainQueue().addOperationWithBlock({
+					completion(nil, error)
+				})
+				return
+			}
+			if let data = NSData(contentsOfURL: url), image = UIImage(data: data) {
+				NSOperationQueue.mainQueue().addOperationWithBlock({
+					completion(image, nil)
+				})
+			} else {
+				NSOperationQueue.mainQueue().addOperationWithBlock({
+					completion(nil, NetworkClientError.ImageData)
+				})
+			}
+			
+		}
+		task.resume()
+		return task
+	}
+	
+	
+	
+	// MARK: helper methods
+	
+	private func parseJSON(data: NSData, completion: NetworkResult) {
+		do {
+			let fixedData = fixedJSONData(data)
+			let parseResults = try NSJSONSerialization.JSONObjectWithData(fixedData, options: [])
+			if let dictionary = parseResults as? NSDictionary {
+				NSOperationQueue.mainQueue().addOperationWithBlock {
+					completion(dictionary, nil)
+				}
+			} else if let array = parseResults as? [NSDictionary] {
+				NSOperationQueue.mainQueue().addOperationWithBlock {
+					completion(array, nil)
+				}
+			}
+		} catch let parseError {
+			NSOperationQueue.mainQueue().addOperationWithBlock {
+				completion(nil, parseError)
+			}
+		}
+	}
+	
+	private func fixedJSONData(data: NSData) -> NSData {
+		guard let jsonString = String(data: data, encoding: NSUTF8StringEncoding) else { return data }
+		let fixedString = jsonString.stringByReplacingOccurrencesOfString("\\'", withString: "'")
+		if let fixedData = fixedString.dataUsingEncoding(NSUTF8StringEncoding) {
+			return fixedData
+		} else {
+			return data
+		}
+	}
+}
 
-  init() {
-    let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
-    urlSession = NSURLSession(configuration: configuration)
-  }
-
-  // MARK: service methods
-
-  func getURL(url: NSURL, completion: NetworkResult) {
-    let request = NSURLRequest(URL: url)
-    let task = urlSession.dataTaskWithRequest(request) { [unowned self] (data, response, error) in
-      guard let data = data else {
-        NSOperationQueue.mainQueue().addOperationWithBlock {
-          completion(nil, error)
-        }
-        return
-      }
-      self.parseJSON(data, completion: completion)
-    }
-    task.resume()
-  }
-
-  // MARK: helper methods
-
-  private func parseJSON(data: NSData, completion: NetworkResult) {
-    do {
-      let fixedData = fixedJSONData(data)
-      let parseResults = try NSJSONSerialization.JSONObjectWithData(fixedData, options: [])
-      if let dictionary = parseResults as? NSDictionary {
-        NSOperationQueue.mainQueue().addOperationWithBlock {
-          completion(dictionary, nil)
-        }
-      } else if let array = parseResults as? [NSDictionary] {
-        NSOperationQueue.mainQueue().addOperationWithBlock {
-          completion(array, nil)
-        }
-      }
-    } catch let parseError {
-      NSOperationQueue.mainQueue().addOperationWithBlock {
-        completion(nil, parseError)
-      }
-    }
-  }
-
-  private func fixedJSONData(data: NSData) -> NSData {
-    guard let jsonString = String(data: data, encoding: NSUTF8StringEncoding) else { return data }
-    let fixedString = jsonString.stringByReplacingOccurrencesOfString("\\'", withString: "'")
-    if let fixedData = fixedString.dataUsingEncoding(NSUTF8StringEncoding) {
-      return fixedData
-    } else {
-      return data
-    }
-  }
+extension NetworkClient: NSURLSessionDelegate, NSURLSessionDownloadDelegate {
+	
 }
