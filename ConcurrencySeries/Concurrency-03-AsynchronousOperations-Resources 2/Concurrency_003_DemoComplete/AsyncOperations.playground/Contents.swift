@@ -9,6 +9,7 @@ XCPlaygroundPage.currentPage.needsIndefiniteExecution = true
 
 //: A abstract class for wrapping asynchronous functionality
 class ConcurrentOperation: NSOperation {
+	
   enum State: String {
     case Ready, Executing, Finished
     
