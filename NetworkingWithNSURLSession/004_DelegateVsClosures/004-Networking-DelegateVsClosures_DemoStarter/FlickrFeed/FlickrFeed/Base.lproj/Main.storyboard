@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10102" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="gxz-8c-eQN">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10080"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--Feed View Controller-->
+        <scene sceneID="TB9-lc-X1e">
+            <objects>
+                <collectionViewController id="gxz-8c-eQN" customClass="FeedViewController" customModule="FlickrFeed" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="9SN-3S-fjm">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <inset key="scrollIndicatorInsets" minX="0.0" minY="20" maxX="0.0" maxY="0.0"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="4" minimumInteritemSpacing="4" id="NTn-ub-JTO">
+                            <size key="itemSize" width="100" height="100"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="4" minY="25" maxX="4" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="photoCell" id="4NM-mP-4Eh" customClass="PhotoCell" customModule="FlickrFeed" customModuleProvider="target">
+                                <rect key="frame" x="4" y="25" width="100" height="100"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Downloading" translatesAutoresizingMaskIntoConstraints="NO" id="UR6-nf-qLJ">
+                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                        </imageView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <constraints>
+                                    <constraint firstItem="UR6-nf-qLJ" firstAttribute="top" secondItem="4NM-mP-4Eh" secondAttribute="top" id="2gm-nf-xnF"/>
+                                    <constraint firstAttribute="trailing" secondItem="UR6-nf-qLJ" secondAttribute="trailing" id="82s-Ss-UNH"/>
+                                    <constraint firstAttribute="bottom" secondItem="UR6-nf-qLJ" secondAttribute="bottom" id="HzA-I7-zLL"/>
+                                    <constraint firstItem="UR6-nf-qLJ" firstAttribute="leading" secondItem="4NM-mP-4Eh" secondAttribute="leading" id="bHt-13-afw"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="photoImageView" destination="UR6-nf-qLJ" id="ifs-mn-WTU"/>
+                                </connections>
+                            </collectionViewCell>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="messageCell" id="g2G-XA-LTa" customClass="MessageCell" customModule="FlickrFeed" customModuleProvider="target">
+                                <rect key="frame" x="127" y="25" width="100" height="100"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sorry, the photo service returned something different than expected" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YN6-kO-4nG">
+                                            <rect key="frame" x="8" y="8" width="84" height="84"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <constraints>
+                                    <constraint firstItem="YN6-kO-4nG" firstAttribute="leading" secondItem="g2G-XA-LTa" secondAttribute="leadingMargin" id="5CG-bw-TRv"/>
+                                    <constraint firstItem="YN6-kO-4nG" firstAttribute="top" secondItem="g2G-XA-LTa" secondAttribute="topMargin" id="8ge-bB-bee"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="YN6-kO-4nG" secondAttribute="trailing" id="N8p-Fe-yzb"/>
+                                    <constraint firstAttribute="bottomMargin" secondItem="YN6-kO-4nG" secondAttribute="bottom" id="nay-WG-QJo"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="messageLabel" destination="YN6-kO-4nG" id="LMI-pZ-Rqg"/>
+                                </connections>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="gxz-8c-eQN" id="0hE-c6-ApJ"/>
+                            <outlet property="delegate" destination="gxz-8c-eQN" id="kDv-FW-uVZ"/>
+                        </connections>
+                    </collectionView>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YX1-qO-CDP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="274" y="543"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Downloading" width="100" height="100"/>
+    </resources>
+</document>

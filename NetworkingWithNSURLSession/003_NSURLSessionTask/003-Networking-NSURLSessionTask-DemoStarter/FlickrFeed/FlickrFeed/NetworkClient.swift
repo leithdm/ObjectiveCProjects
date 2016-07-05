@@ -39,8 +39,7 @@ class NetworkClient: NSObject {
 		urlSession = NSURLSession(configuration: configuration)
 		super.init()
 		
-		let backgroundConfiguration = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier("com.razeware.flickrfeed")
-		backgroundSession = NSURLSession(configuration: backgroundConfiguration, delegate: self, delegateQueue: nil)
+
 	}
 	
 	// MARK: service methods
@@ -117,8 +116,4 @@ class NetworkClient: NSObject {
 			return data
 		}
 	}
-}
-
-extension NetworkClient: NSURLSessionDelegate, NSURLSessionDownloadDelegate {
-	
 }

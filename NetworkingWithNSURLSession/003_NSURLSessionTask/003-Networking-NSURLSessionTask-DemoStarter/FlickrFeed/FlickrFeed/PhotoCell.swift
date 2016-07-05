@@ -25,7 +25,7 @@ import UIKit
 class PhotoCell: UICollectionViewCell {
   @IBOutlet weak var photoImageView: UIImageView!
 	
-	var imageTask: NSURLSessionDownloadTask?
+	var imageTask: NSURLSessionDownloadTask? //the beauty of passing back the task is that we can cancel it (see below)
 
   var photo: Photo? {
     didSet {
@@ -35,7 +35,7 @@ class PhotoCell: UICollectionViewCell {
 			return
 		}
 		
-		NetworkClient.sharedInstance.getImage(photoURL) { [weak self] (image, error) in
+		imageTask = NetworkClient.sharedInstance.getImage(photoURL) { [weak self] (image, error) in
 			guard error == nil else {
 				self?.photoImageView.image = UIImage(named: "Broken")
 				return
